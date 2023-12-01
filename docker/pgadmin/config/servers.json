@@ -1,0 +1,13 @@
+{
+    "Servers": {
+        "gamers": {
+            "Name": "gamers",
+            "Group": "Servers",
+            "Port": 5432,
+            "Username": "gamers",
+            "Host": "gamers-db",
+            "SSLMode": "prefer",
+            "MaintenanceDB": "postgres"
+        }
+    }
+}

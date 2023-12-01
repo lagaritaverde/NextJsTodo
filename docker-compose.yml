@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+    db:
+        container_name: gamers-db
+        image: postgres
+        restart: always
+        ports:
+            - "5432:5432"
+        environment:
+            POSTGRES_USER: gamers
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: gamers
+        volumes:
+            - ./SQL/:/docker-entrypoint-initdb.d/
+            - ./docker/postgres/data:/var/lib/postgresql/data
+        
+        networks: 
+            - backend
+    adminer:
+        container_name: gamers-db-webadmin
+        image: dpage/pgadmin4
+        restart: always
+        networks: 
+            - backend
+        ports:
+            - "8080:80"
+        environment:
+              PGADMIN_DEFAULT_EMAIL: admin@local.com
+              PGADMIN_DEFAULT_PASSWORD: password
+        volumes:
+            - ./docker/pgadmin/config/servers.json:/pgadmin4/servers.json
+            - ./docker/pgadmin/data:/var/lib/pgadmin
+
+networks:
+    backend:
+        driver: "bridge"
+        enable_ipv6: false
