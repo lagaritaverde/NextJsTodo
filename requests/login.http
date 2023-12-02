@@ -1,7 +1,16 @@
-POST http://localhost:3000/api/login
+# @name login
+POST {{API_HOST}}/login
 content-type: application/json
 
 {
-    "user": "sample",
-    "password": "asd"
+    "user": "admin",
+    "password": "password"
 }
+
+###
+
+@token={{login.response.body.auth.token}}
+
+# @name profile
+GET {{API_HOST}}/profile
+authorization: {{token}}
