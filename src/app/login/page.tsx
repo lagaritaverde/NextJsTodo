@@ -1,5 +1,7 @@
-import { Container } from '@/components/atoms/Container'
+'use client'
+
+import { Container } from '@/frontend/components/atoms/Container'
 
 export default function Page() {
-	return <Container>Login</Container>
+  return <Container>Login</Container>
 }
