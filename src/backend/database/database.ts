@@ -5,7 +5,7 @@ const pool = new Pool({
     database: 'gamers',
     password: 'password',
     port: 5432,
-    ssl:false
+    ssl: false
 })
 
 export interface Database {

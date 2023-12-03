@@ -1,36 +1,9 @@
 import { instance, Database } from '@/backend/database/database'
-import { SignJWT, jwtVerify, type JWTPayload } from 'jose'
-
+import { sign, verify } from './authUtility'
 import { AuthResult, AuthUser, AuthToken } from './authModels'
 
-const secretKey: string = process.env.JWT_SECRET ?? ''
-const secretKeyStream = new TextEncoder().encode(secretKey)
-
-async function sign(payload: AuthUser, secret: string): Promise<string> {
-  const iat = Math.floor(Date.now() / 1000)
-  const exp = iat + 60 * 60 // one hour
-
-  return new SignJWT({ payload })
-    .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })
-    .setExpirationTime(exp)
-    .setIssuedAt(iat)
-    .setNotBefore(iat)
-    .sign(secretKeyStream)
-}
-
-export async function verify(
-  token: string,
-  secret: string
-): Promise<JWTPayload> {
-  const { payload } = await jwtVerify(token, secretKeyStream)
-  // run some checks on the returned payload, perhaps you expect some specific values
-
-  // if its all good, return it, or perhaps just return a boolean
-  return payload
-}
-
 export class AuthService {
-  constructor(private database: Database) {}
+  constructor(private database: Database) { }
   async login(
     username: string,
     password: string
@@ -51,7 +24,7 @@ export class AuthService {
 
     const user: AuthUser = rows[0]
 
-    const token = await sign(user, secretKey)
+    const token = await sign(user)
 
     const auth: AuthToken = {
       token: token,
@@ -66,8 +39,14 @@ export class AuthService {
   }
 
   async getUser(token: string): Promise<AuthUser | undefined> {
-    await verify(token, secretKey)
-    return undefined
+    try {
+      const result = await verify(token);
+
+      return <AuthUser>result.payload;
+    } catch (error) {
+      return undefined;
+    }
+
   }
 }
 
