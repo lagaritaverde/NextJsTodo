@@ -1,3 +1,5 @@
+import { Container } from '@/components/atoms/Container'
+
 export default function Page() {
-    return <h1>Hello, Page Page!</h1>
-  }
+	return <Container>Login</Container>
+}
