@@ -4,7 +4,6 @@ services:
   db:
     container_name: gamers-db
     image: postgres
-    # restart: always
     ports:
       - '5432:5432'
     environment:
@@ -20,7 +19,8 @@ services:
   adminer:
     container_name: gamers-db-webadmin
     image: dpage/pgadmin4
-    restart: always
+    depends_on:
+      - db
     networks:
       - backend
     ports:
