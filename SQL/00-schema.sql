@@ -29,7 +29,7 @@ TABLESPACE pg_default;
 ALTER TABLE IF EXISTS public.todo
     OWNER to gamers;
 	
-CREATE TABLE IF NOT EXISTS public."todoItem"
+CREATE TABLE IF NOT EXISTS public.todoItem
 (
     id uuid NOT NULL,
     title character varying COLLATE pg_catalog."default" NOT NULL,
@@ -38,5 +38,5 @@ CREATE TABLE IF NOT EXISTS public."todoItem"
 
 TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS public."todoItem"
+ALTER TABLE IF EXISTS public.todoItem
     OWNER to gamers;

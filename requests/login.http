@@ -17,14 +17,14 @@ authorization: {{token}}
 
 ###
 
-# @name todo
+# @name todo_list
 GET {{API_HOST}}/todo
 authorization: {{token}}
 
 
 ###
 
-# @name todo
+# @name todo_create
 POST {{API_HOST}}/todo
 authorization: {{token}}
 content-type: application/json
@@ -33,3 +33,13 @@ content-type: application/json
     "title": "title",
     "description": "desc"
 }
+
+###
+
+@todoId='afda60f6-0210-4ce7-b3c2-3bd1718e5f2f'
+# @name todo_items
+GET {{API_HOST}}/todo/afda60f6-0210-4ce7-b3c2-3bd1718e5f2f
+authorization: {{token}}
+content-type: application/json
+
+
