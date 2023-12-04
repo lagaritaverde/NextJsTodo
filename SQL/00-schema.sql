@@ -32,6 +32,7 @@ ALTER TABLE IF EXISTS public.todo
 CREATE TABLE IF NOT EXISTS public.todoItem
 (
     id uuid NOT NULL,
+    todoId uuid NOT NULL,
     title character varying COLLATE pg_catalog."default" NOT NULL,
     done boolean NOT NULL
 )

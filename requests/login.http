@@ -36,10 +36,21 @@ content-type: application/json
 
 ###
 
-@todoId='afda60f6-0210-4ce7-b3c2-3bd1718e5f2f'
+@todoId=828c6204-4c30-4522-b9a6-985b5fa40025
 # @name todo_items
-GET {{API_HOST}}/todo/afda60f6-0210-4ce7-b3c2-3bd1718e5f2f
+GET {{API_HOST}}/todo/{{todoId}}
 authorization: {{token}}
 content-type: application/json
+
+###
+
+# @name todo_items_create
+POST {{API_HOST}}/todo/{{todoId}}
+authorization: {{token}}
+content-type: application/json
+
+{
+    "title": "item2"
+}
 
 

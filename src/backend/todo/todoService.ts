@@ -15,7 +15,7 @@ export class TodoService {
 
   async ListItems(userId: string, todoId: string): Promise<TodoItem[]> {
     const rows = await this.database.query<TodoItem>(
-      'SELECT * FROM todoItem where id = (select id from todo where ownerId=$1 and id= $2)',
+      'SELECT * FROM todoItem where todoId = (select id from todo where ownerId=$1 and id= $2)',
       [userId, todoId]
     )
     return rows;
@@ -25,11 +25,36 @@ export class TodoService {
     const newId = uuid()
 
     await this.database.query(
-      'INSERT INTO public.todo(id, ownerid,title, description) values($1,$2,$3,$4)'
+      'INSERT INTO todo(id, ownerid,title, description) values($1,$2,$3,$4)'
       , [newId, userId, title, description])
 
     return newId;
   }
+
+  private async BelongToMe(userId: string, todoId: string): Promise<boolean> {
+    return await this.database.queryScalar<boolean>(
+      'select exists(select 1 from todo where ownerId=$1 and id=$2 limit 1)',
+      [userId, todoId]
+    )
+  }
+
+  async AddItem(userId: string, todoId: string, title: string): Promise<TodoItem | undefined> {
+
+    const belongToMe = await this.BelongToMe(userId, todoId);
+
+    if (!belongToMe) {
+      return undefined;
+    }
+
+    const newId = uuid()
+
+    await this.database.query(
+      'INSERT INTO todoitem(id, todoId, title, done) VALUES ($1, $2, $3, $4)',
+      [userId, todoId, title, false]
+    )
+
+    return <TodoItem>{ id: newId, toodId: todoId, title: title, done: false }
+  };
 }
 
 export const todoService = new TodoService(instance)
