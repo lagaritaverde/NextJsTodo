@@ -14,3 +14,9 @@ content-type: application/json
 # @name profile
 GET {{API_HOST}}/profile
 authorization: {{token}}
+
+###
+
+# @name todo
+GET {{API_HOST}}/todo
+authorization: {{token}}

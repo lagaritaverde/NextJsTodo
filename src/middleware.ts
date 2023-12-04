@@ -21,7 +21,9 @@ export async function middleware(request: NextRequest) {
   const token = request.headers.get('authorization') ?? ''
 
   try {
+
     await verify(token)
+
   } catch (error) {
     return new NextResponse('401 Unauthorized', { status: 401 })
   }

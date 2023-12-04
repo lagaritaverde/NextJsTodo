@@ -19,8 +19,8 @@ CREATE TABLE IF NOT EXISTS public.todo
 (
     id uuid NOT NULL,
     title character varying(50) COLLATE pg_catalog."default" NOT NULL,
-    "ownerId" uuid NOT NULL,
-    descriptoin character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    ownerId uuid NOT NULL,
+    description character varying(100) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT "Todo_pkey" PRIMARY KEY (id)
 )
 
