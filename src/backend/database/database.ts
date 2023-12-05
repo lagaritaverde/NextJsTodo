@@ -1,4 +1,5 @@
 import { Pool, QueryResultRow } from 'pg'
+/* v8 ignore */
 const pool = new Pool({
     user: 'gamers',
     host: '127.0.0.1',
@@ -13,12 +14,10 @@ export interface Database {
     queryScalar<R>(query: string, values?: any[] | undefined): Promise<R>;
 }
 
-
 class PostgresDatabase implements Database {
     async query<R extends QueryResultRow>(query: string, values?: any[] | undefined): Promise<R[]> {
         return (await pool.query<R>(query, values)).rows;
     }
-
     async queryScalar<R>(query: string, values?: any[] | undefined): Promise<R> {
         const result = (await pool.query(query, values));
 
@@ -29,5 +28,4 @@ class PostgresDatabase implements Database {
         return <R>result.rows[0][result.fields[0].name];
     }
 }
-
 export const instance = new PostgresDatabase();

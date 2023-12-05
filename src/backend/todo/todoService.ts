@@ -13,7 +13,13 @@ export class TodoService {
     return rows;
   }
 
-  async ListItems(userId: string, todoId: string): Promise<TodoItem[]> {
+  async ListItems(userId: string, todoId: string): Promise<TodoItem[] | undefined> {
+    const belongToMe = await this.BelongToMe(userId, todoId);
+
+    if (!belongToMe) {
+      return undefined;
+    }
+
     const rows = await this.database.query<TodoItem>(
       'SELECT * FROM todoItem where todoId = (select id from todo where ownerId=$1 and id= $2)',
       [userId, todoId]
